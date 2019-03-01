@@ -141,5 +141,10 @@
 			<groupId>org.h5huodong.p3</groupId>
 			<artifactId>P3-Biz-shaketicket</artifactId>
 		</dependency>
+		<!--kanjia-->
+		<dependency>
+			<groupId>org.h5huodong.p3</groupId>
+			<artifactId>P3-Biz-gzbargain-newYear</artifactId>
+		</dependency>
 	</dependencies>
 </project>

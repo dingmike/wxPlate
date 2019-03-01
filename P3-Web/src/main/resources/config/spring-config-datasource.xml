@@ -37,12 +37,12 @@
 		<property name="password" value="root" />
 		<property name="maxActive"><value>10</value></property>   
         <property name="initialSize"><value>5</value></property>   
-        <property name="maxWait"><value>30000</value></property>        <!-- 超时等待时间  以毫秒为单位 --> 
+        <property name="maxWait"><value>30000</value></property>        <!-- 超时等待时间  以毫秒为单位 -->
         <property name="maxIdle"><value>20</value></property>            <!-- 最大空闲连接 -->
         <property name="minIdle"><value>5</value></property>             <!-- 最小空闲连接 -->
-        <property name="removeAbandoned"><value>true</value></property>  <!-- 是否自动回收超时连接 --> 
-        <property name="removeAbandonedTimeout"><value>30</value></property>  <!-- 超时时间(以秒数为单位) --> 
-        <property name="testWhileIdle"><value>true</value></property>    <!-- 打开检查,用异步线程evict进行检查 -->   
+        <property name="removeAbandoned"><value>true</value></property>  <!-- 是否自动回收超时连接 -->
+        <property name="removeAbandonedTimeout"><value>30</value></property>  <!-- 超时时间(以秒数为单位) -->
+        <property name="testWhileIdle"><value>true</value></property>    <!-- 打开检查,用异步线程evict进行检查 -->
     	<property name="testOnBorrow"><value>true</value></property>   
     	<property name="testOnReturn"><value>false</value></property>   
     	<property name="validationQuery"><value>select 1</value></property>      	 

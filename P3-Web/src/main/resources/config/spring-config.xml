@@ -62,12 +62,12 @@
 	
 	
 	<!-- jdbc注入 -->  
-    <bean id="jdbcTemplate"  
+    <bean id="jdbcTemplate"
         class="org.springframework.jdbc.core.JdbcTemplate">  
         <property name="dataSource">  
             <ref bean="dataSource_jeewx" />  
         </property>  
-    </bean>  
+    </bean>
 
 	<import resource="classpath:config/spring-config-datasource.xml" />
 	<import resource="classpath:config/spring-config-p3.xml" />
