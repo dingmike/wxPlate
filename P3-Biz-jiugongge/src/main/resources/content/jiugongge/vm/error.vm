@@ -1,0 +1,112 @@
+#set($version='?v=2.2.6')
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$!{dictTool.getSysText('index.title',$!{bargain.id})}</title>
+<meta charset="UTF-8">
+<meta content="yes" name="apple-mobile-web-app-capable"></meta>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"></meta>
+<meta name="format-detection" content="telephone=no"></meta>
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"></meta>
+<meta content="yes" name="full-screen"></meta>
+<meta content="true" name="x5-fullscreen"></meta>
+<meta content="application" name="browsermode"></meta>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="$!{basePath}/content/jiugongge/css/style.css$!{version}" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<div id="zjl"  class="pop" style="display:block">
+	<div class="promptbox">
+		<div class="box"><h1>出错了</h1>
+			<div class="line"><img src="$!{basePath}/content/jiugongge/img/line_yellow.png" width="100%" /></div>
+			<div class="user">
+				<br/>
+				<p style="text-align:center;color:#fff">$!{errMsg}</p>
+				<br/>
+				<br/>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container" id="lottery">
+	<div class="NO">
+		<ul>
+			<li class="lottery-unit lottery-unit-0"><span class="active"></span><img src="$!{basePath}/content/jiugongge/img/ths.png" width="99%"/></li>
+			<li class="lottery-unit lottery-unit-1"><span></span><img src="$!{basePath}/content/jiugongge/img/ths.png"/></li>
+			<li class="lottery-unit lottery-unit-1"><span></span><img src="$!{basePath}/content/jiugongge/img/ths.png"/></li>
+			<li class="lottery-unit lottery-unit-1"><span></span><img src="$!{basePath}/content/jiugongge/img/ths.png"/></li>
+			<li><a href="javascript:void(0)"><img src="$!{basePath}/content/jiugongge/img/start.jpg"  style="cursor:pointer;" /></a></li>
+			<li class="lottery-unit lottery-unit-1"><span></span><img src="$!{basePath}/content/jiugongge/img/ths.png"/></li>
+			<li class="lottery-unit lottery-unit-1"><span></span><img src="$!{basePath}/content/jiugongge/img/ths.png"/></li>
+			<li class="lottery-unit lottery-unit-1"><span></span><img src="$!{basePath}/content/jiugongge/img/ths.png"/></li>
+			<li class="lottery-unit lottery-unit-1"><span></span><img src="$!{basePath}/content/jiugongge/img/ths.png"/></li>
+			<div class="clr"></div>
+		</ul>
+	</div>
+    <img src="$!{basePath}/content/jiugongge/img/bg.jpg" class="img"/>
+</div>
+<div class="content">
+	<div class="title"><img src="$!{basePath}/content/jiugongge/img/title_1.png" /></div>
+	<div class="text">本次活动每人可抽0次。您还有<span id="num">0次机会</div>
+	<div class="title"><img src="$!{basePath}/content/jiugongge/img/title_2.png" /></div>
+	<div class="text">$!{bargain.description}</div>
+	<div class="title"><img src="$!{basePath}/content/jiugongge/img/title_3.png" /></div>
+	<div class="prize text">
+	</div>
+</div>
+<!--未绑定手机号-->
+	<div id="no_foucs"  class="pop"  style="display:none;">
+	 <div class="promptbox">
+	<div class="box"><h1 id="">非关注用户</h1>
+	<div class="line"><img src="$!{basePath}/content/jiugongge/img/line_yellow.png" width="100%" /></div>
+	<div class="user">
+	<img src="$!{basePath}/content/jiugongge/img/$!{dictTool.getSysText('index.img.erweima',$!{bargain.id})}"  width="100" class="left"  />
+	<div class="text"><span id="">
+	$!{dictTool.getSysText('index.tip.nofocus',$!{bargain.id})}</span><div class="clr"></div></div>	
+	<div class="but_con"  >
+	<button class="button_01" onclick="document.getElementById('no_foucs').style.display='none';">知道啦</button>
+	<div class="clr"></div>
+	</div>
+	</div>
+	</div></div>
+	</div>
+<!--未绑定手机号-->
+<!--未绑定手机号-->
+	<div id="no_binding_phone"  class="pop"  style="display:none;">
+	 <div class="promptbox">
+	<div class="box"><h1 id="">未绑定手机号</h1>
+	<div class="line"><img src="$!{basePath}/content/jiugongge/img/line_yellow.png" width="100%" /></div>
+	<div class="user">
+	<img src="$!{basePath}/content/jiugongge/img/cat_02.png"  width="70" class="left"  />
+	<div class="text"><span id="">
+	$!{dictTool.getSysText('index.tip.nobinding',$!{bargain.id})}</span><div class="clr"></div></div>	
+	<div class="but_con"  >
+	<button class="button_01" onclick="document.getElementById('no_binding_phone').style.display='none';">知道啦</button>
+	<div class="clr"></div>
+	</div>
+	</div>
+	</div></div>
+	</div>
+<!--未绑定手机号-->
+<div class="line"><img src="$!{basePath}/content/jiugongge/img/line.png" /></div>
+<div class="copyright">免费创建一个活动？-><a href="http://mp.weixin.qq.com/s?__biz=MzI0MzA3MjI3MA==&mid=2656414114&idx=1&sn=962977778fd377b20c5e69c821ad29d5&chksm=f2d3a5c3c5a42cd5a1255fb4858a0749a24d339d3ad17c9d075026b607699ecaea5661dca16f#rd">H5活动之家</a></div>
+<div class="top_bar" style="-webkit-transform:translate3d(0,0,0)">
+  <nav>
+    <ul id="top_menu" class="top_menu">
+	    <li>
+	      <a onclick="myprize()"><img src="$!{basePath}/content/jiugongge/img/plugmenu9.png"><label>我的奖品</label></a>
+	    </li>  
+		<li class="home">
+		  <a href="javascript:void(0)" style="background: url('$!{basePath}/content/jiugongge/img/home.png') no-repeat center center;opacity:0.75;"></a>
+		</li>
+	    <li>
+	      <a onclick="winners()"><img src="$!{basePath}/content/jiugongge/img/plugmenu12.png"><label>获奖名单</label></a>
+	    </li>   
+    </ul>
+  </nav>
+</div>
+</body>
+</html>
+

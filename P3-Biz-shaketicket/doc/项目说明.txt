@@ -1,0 +1,12 @@
+﻿活动说明：
+	摇一摇是经典的抽奖活动形式。在H5活动平台中商家通过简单配置奖项、奖品，中奖概率即可发布活动，用户参与活动后，商家可在后台查看抽奖和中奖记录,并导出中奖纪录。
+
+请求说明：
++--后台管理
+  |------活动配置			/shaketicket/back/wxActShaketicketHome/list.do
+    
++--前台页面
+  |------首页			/shaketicket/toIndex.do?actId=402880ee51cd37910151cd4702720001&openid=123&jwid=gh_20419b74f848&appid=wx6596a35fea9085d4
+
+配置说明：	
+	无

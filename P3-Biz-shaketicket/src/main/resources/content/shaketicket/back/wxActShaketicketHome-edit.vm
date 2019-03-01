@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+#parse("content/base/back/common/head.vm")
+<link href="$!{basePath}/plug-in/plugin/hplus/css/style.css" type="text/css" rel="stylesheet"/>
+<link href="$!{basePath}/plug-in/plugin/hplus/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
+<body style='overflow:scroll;overflow-x:hidden'>
+	<div class="container bs-docs-container" style="width:100%;">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading" style="34px">
+					<button type="button" class="btn btn-primary" id="formSubmit"><span class="glyphicon glyphicon-ok"></span> 保存</button>
+					<button type="button" class="btn btn-default" id="formReturn" data-dismiss="modal" onclick="doUrl('$!{basePath}/shaketicket/back/wxActShaketicketHome/list.do')"><span class="glyphicon glyphicon-circle-arrow-left"></span> 返回</button>
+					<div style="height:1px;clear:both"></div>
+				</div>
+				<div class="panel-body">
+					<form class="form-horizontal" role="form" id="dailogForm" action="$!{basePath}/shaketicket/back/wxActShaketicketHome/doEdit.do" method="POST">
+						<input type="hidden" id="id" name="id" class="btn_sub" value="$!{wxActShaketicketHome.id}"/>
+						<div class="form-group mno">
+    						<div class="col-sm-4">
+    							<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:center">活动名称</label>
+    							<div class="col-sm-8">
+    								 <input type="text" value="$!{wxActShaketicketHome.actName}" name="actName" id="actName" class="form-control" datatype="*"/>
+    							</div>
+    						</div>
+    						<div class="col-sm-4">
+								<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">开始时间</label>
+    							<div class="col-sm-8">
+                                  <input type="text" value="$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{wxActShaketicketHome.beginTime})" name="beginTime" id="beginTime" class="form-control" datatype="*" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="background: url('$!{basePath}/plug-in/images/datetime.png') no-repeat scroll right center transparent;"/>
+    							</div>
+							</div>
+    						<div class="col-sm-4">
+								<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">结束时间</label>
+    							<div class="col-sm-8">
+                                   <input type="text" value="$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{wxActShaketicketHome.endTime})" name="endTime" id="endTime" class="form-control" datatype="*" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="background: url('$!{basePath}/plug-in/images/datetime.png') no-repeat scroll right center transparent;"/>
+    							</div>
+							</div>
+						</div>
+						<div class="form-group mno">
+							<div class="col-sm-4">
+    							<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">个人抽奖总次数</label>
+    							<div class="col-sm-8">
+                                   <input type="text" value="$!{wxActShaketicketHome.count}" name="count" id="count" class="form-control" datatype="n" errorMsg="只能输入整数值"/>
+    							</div>
+    						</div>
+    						<div class="col-sm-4">
+    							<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">个人每日抽奖次数</label>
+    							<div class="col-sm-8">
+    								<input type="text" value="$!{wxActShaketicketHome.numPerDay}" name="numPerDay" id="numPerDay" class="form-control" datatype="n" errorMsg="只能输入整数值"/>
+    							</div>
+    						</div>
+							<div class="col-sm-4">
+								<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">是否关注可参加</label>
+    							<div class="col-sm-8">
+                                    <select name="foucsUserCanJoin" id="foucsUserCanJoin" datatype="*" value="$!{wxActShaketicketHome.foucsUserCanJoin}"  class="form-control" > 
+    							      	<option value="0" #if($!wxActShaketicketHome.foucsUserCanJoin=='0') selected #end>否</option>
+    									<option value="1" #if($!wxActShaketicketHome.foucsUserCanJoin=='1') selected #end>是</option>
+    							  </select>
+    							</div>
+							</div>
+							
+							#* <div class="col-sm-4">
+								<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">兑奖截止时间</label>
+    							<div class="col-sm-8">
+    								<input name="deadlinetime" id="deadlinetime" value="$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{wxActShaketicketHome.deadlinetime})"  class="form-control" datatype="*" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="background: url('$!{basePath}/plug-in/images/datetime.png') no-repeat scroll right center white;"/>
+    							</div>
+							</div>*#
+						</div>
+						<div class="form-group mno">
+							<div class="col-sm-4">
+								<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">是否中奖可参加</label>
+    							<div class="col-sm-8">
+    								<select name="winCanJoin" id="winCanJoin" datatype="*" value="$!{wxActShaketicketHome.winCanJoin}"  class="form-control" > 
+    							      	<option value="0" #if($!wxActShaketicketHome.winCanJoin=='0') selected #end>中奖可继续参与 </option>
+    									<option value="1" #if($!wxActShaketicketHome.winCanJoin=='1') selected #end>中奖不可参与</option>
+    							  </select>
+    							</div>
+							</div>
+						</div>
+						<div class="form-group mno">
+							<div class="col-sm-8">
+								<label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">活动规则</label>
+    							<div class="col-sm-10">
+									<script type="text/plain" name="detail" id="detail" style="height:100px;width:100%">$!{wxActShaketicketHome.detail}</script>
+    							</div>
+							</div>
+						</div>
+						<!--列表 -->
+						<div class="form-group mno">
+							<ul id="tab_menu" class="nav nav-tabs">
+								<li class="active">
+									<a href="#jpDemoOrderProduct" data-toggle="tab">
+										奖品明细
+									</a>
+                                </li>
+                            </ul>
+							<!-- //update-begin--Author:zhangjiaqiang  Date:20160906 for：【插件demo】一对多，明细行间距太大 -->
+							<div id="tab_menu_content" class="tab-content">
+								<div class="tab-pane fade in active" id="jpDemoOrderProduct">
+									<button type="button" id="jpDemoOrderProduct_add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+									<button type="button" id="jpDemoOrderProduct_del" class="btn btn-danger"><i class="fa fa-trash-o"></i> 删除</button>
+                                    <table class="table table-striped" id="jpDemoOrderProduct_table" style="margin-top:15px;">
+										<thead>
+											<tr>
+                                                <th>ID</th>
+                                                <th>奖品</th>
+												<th>数量</th>
+												<th>中奖概率&nbsp<span style="font-size:3px;color:rgb(72, 167, 231);">(例如0.5,不大于1)</span></th>
+											</tr>
+                                        </thead>
+										<tbody>
+											#foreach($awarsDetail in $awarsDetailList)
+											<tr>
+												<input value="$!{awarsDetail.id}" name="awarsList[0].id" type="hidden"/>
+                								<td >
+                									<input type="checkbox" name="awarsList[#index#].idCheck"/>
+                                                </td>
+                								<td>
+													<input  class="form-control awardItem" onclick="showAwardItem(this)" name="awarsList[#index#].awardsName" value='#foreach($award in $awards)#if("$!{awarsDetail.awardId}"=="$!award.id")$!award.awardsName#end#end' datatype="*"/>
+                                    				<input type="hidden" name="awarsList[#index#].awardId" value="$!{awarsDetail.awardId}"/>
+                									#*<select name="awarsList[#index#].awardId"  class="form-control" datatype="*"> 
+                                    			    	#foreach($award in $awards)
+                                    		      			<option value="$!award.id" #if("$!{awarsDetail.awardId}" == "$!award.id")selected#end>$!award.awardsName</option>
+                                    		      		#end
+                                    	      	     </select>*#
+                								</td>
+                								<td>
+                									<input type="text"  name="awarsList[#index#].amount" value="$!{awarsDetail.amount}"  class="form-control" datatype="n"/>
+                								</td>
+                								<td>
+                									<input type="text" value="$!{awarsDetail.probability}"  name="awarsList[#index#].probability" class="form-control" datatype="/^(0|0\.\d*|1(\.0{1,2})?)$/"/>
+                								</td>
+                                            </tr>
+											#end
+                                        </tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!--明细模板 -->
+					<table style="display:none;">
+						<tbody id="add_jpDemoOrderProduct_template">
+							<tr>
+								<td >
+									<input type="checkbox" name="awarsList[#index#].idCheck"/>
+                                </td>
+								<td>
+									<input  class="form-control awardItem" onclick="showAwardItem(this)" name="awarsList[#index#].awardsName" datatype="*"/>
+									<input type="hidden" name="awarsList[#index#].awardId" />
+									#*<select name="awarsList[#index#].awardId"  class="form-control" datatype="*"> 
+                    			    	#foreach($award in $awards)
+                    		      			<option value="$!award.id" >$!award.awardsName</option>
+                    		      		#end
+                    	      	     </select>*#
+								</td>
+								<td>
+									<input type="text"  name="awarsList[#index#].amount" value="10"  class="form-control" datatype="n"/>
+								</td>
+								<td>
+									<input type="text"  name="awarsList[#index#].probability" value="0.1" class="form-control" datatype="/^(0|0\.\d*|1(\.0{1,2})?)$/"/>
+								</td>
+                            </tr>
+                        </tbody>
+                    </table>
+					<!-- //update-end--Author:zhangjiaqiang  Date:20160906 for：【插件demo】一对多，明细行间距太大 -->
+				</div>
+			</div>
+		</div>
+	</div>
+<div id="awardItemDiv" style="display:none; position: absolute;background-color: #fff;border: 1px solid;margin-bottom: 5%;height: 300px;overflow: scroll;"></div>
+</body>
+</html>
+<script type="text/javascript" src="$!{basePath}/plug-in/js/Validform_v5.3.2.js"></script> 
+<script type="text/javascript" src="$!{basePath}/plug-in/js/forminit.p3.js"></script> 
+<script type="text/javascript" src="$!{basePath}/content/shaketicket/back/wxActShaketicketHome-add.js"></script>
+<script type="text/javascript" charset="utf-8" src="$!{basePath}/plug-in/plugin/UEditor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="$!{basePath}/plug-in/plugin/UEditor/umeditor.min.js"></script>
+<script type="text/javascript" src="$!{basePath}/plug-in/plugin/UEditor/lang/zh-cn/zh-cn.js"></script>
+<link href="$!{basePath}/plug-in/plugin/UEditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<!-- //update-begin--Author:zhangjiaqiang  Date:20160906 for：【插件demo】一对多，明细行间距太大 -->
+<script>
+$opt={toolbar:[
+            'undo redo | bold italic underline strikethrough | forecolor backcolor |',
+            'insertorderedlist insertunorderedlist | link unlink ' ,
+            '| justifyleft justifycenter justifyright justifyjustify |paragraph fontfamily fontsize',
+            ' | fullscreen']};
+var um = UM.getEditor('detail',$opt);
+jQuery(function(){
+	$("tbody .Validform_checktip").remove();
+	resetTrNum('jpDemoOrderProduct_table');
+});
+</script>
+<!-- //update-end--Author:zhangjiaqiang  Date:20160906 for：【插件demo】一对多，明细行间距太大 -->
+<script >
+//提交表单前校验
+function submitForm(){
+	var submitFlag=true;
+	$('input[name^=awarsList][name$=Name]').each(function(i){
+		if(i<2){
+    		if(!$(this).val()){
+    			layeralert("请先配置奖项再录入活动",0);
+				submitFlag=false;
+    			return false;
+    		}
+		}
+	});
+	if(submitFlag){
+    	var form = $("#dailogForm").Validform();
+        form.config({tiptype:4});
+    	var flag = form.check();
+    	if(flag){
+    		parent.layer.confirm('确认提交吗？', {
+    		    btn: ['确定','取消'] //按钮
+    		}, function(){
+    			ajaxdoFormSubmit('dailogForm');
+    		}, function(){
+    		   
+    		});
+    	}else{
+    		layeralert("信息校验没有通过，请检查填写的信息",0);
+    	}
+	}
+}
+
+//展示奖项
+function showAwardItem(e){
+	var items=[];
+	#foreach($award in $awards)
+    	var item={};
+		item.id="$!award.id";
+		item.value="$!award.awardsName";
+		items.push(item);
+	#end
+	ProcessAwardItem(e,items);
+}
+
+String.prototype.endWith=function(str){     
+  var reg=new RegExp(str+"$");     
+  return reg.test(this);        
+}
+
+
+$(function(){
+	$("html").on("mousedown",function(e){
+		if(!e.target.className.endWith("awardItem")){
+			$("#awardItemDiv").fadeOut("fast");
+		}
+	});
+});
+
+var $this;
+
+function ProcessAwardItem(e,items){
+
+	$this=$(e);
+	
+	var option='';
+	jQuery.each(items,function(index,obj){
+		option+='<a href="javascript:;" onclick=showData("'+obj.id+'","'+obj.value+'") class="list-group-item">'+obj.value+'</a>';
+	});
+	$('#awardItemDiv').html(option);
+	
+	var thisPosition= $this.offset();
+	if($("#awardItemDiv").is(':hidden')){
+    	$("#awardItemDiv").css({left:thisPosition.left + "px", top:(thisPosition.top+$this.outerHeight())+"px",width:$this.outerWidth()+"px"}).slideDown("fast");
+	}else{
+		$("#awardItemDiv").fadeOut("fast");
+	}
+}
+
+function showData(id,value){
+	$this.val(value)
+	$($this.next("input")).val(id);
+	$("#awardItemDiv").fadeOut("fast");
+}
+</script>

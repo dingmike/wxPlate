@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD iBatis Mapper 3.0 //EN" 
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.jeecg.p3.jiugongge.verify.entity.WxActJiugonggeVerify">
+
+	<!-- Result Map-->
+	<resultMap id="WxActJiugonggeVerify" type="com.jeecg.p3.jiugongge.verify.entity.WxActJiugonggeVerify" >
+		<result column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="act_id" property="actId" jdbcType="VARCHAR"/>
+		<result column="openid" property="openid" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="VARCHAR"/>
+		<result column="headimg" property="headimg" jdbcType="VARCHAR"/>
+		<result column="recieve_time" property="recieveTime" jdbcType="VARCHAR"/>
+		<result column="recieve_status" property="recieveStatus" jdbcType="VARCHAR"/>
+		<result column="award_code" property="awardCode" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 查询条件 -->
+	<sql id="wherecontation">
+		<trim  suffixOverrides="," >
+				 <if test="query.actId != null and query.actId != ''" >
+	  		 		/* 活动id */
+			    	AND wajv.act_id =  #{query.actId,jdbcType=VARCHAR}
+				 </if>
+				 <if test="query.openid != null and query.openid != ''" >
+	  		 		/* 核销员id */
+			    	AND wajv.openid =  #{query.openid,jdbcType=VARCHAR}
+				 </if>
+				 <if test="query.status != null and query.status != ''" >
+	  		 		/* 状态（0启用/1未启用） */
+			    	AND wajv.status =  #{query.status,jdbcType=VARCHAR}
+				 </if>
+				 <if test="query.headimg != null and query.headimg != ''" >
+	  		 		/* 微信头像 */
+			    	AND wajv.headimg =  #{query.headimg,jdbcType=VARCHAR}
+				 </if>
+				 <if test="query.nickname != null and query.nickname != ''" >
+	  		 		/* 微信昵称 */
+			    	AND wajv.nickname =  #{query.nickname,jdbcType=VARCHAR}
+				 </if>
+		</trim>
+	</sql>
+
+	<!--
+	方法名称: insert
+	调用路径: com.jeecg.p3.jiugongge.verify.entity.WxActJiugonggeVerify.insert
+	开发信息: 
+	处理信息: 保存信息
+	-->
+	<insert id="insert" parameterType="Object" >
+	  INSERT  INTO  wx_act_jiugongge_verify   /* 审核员管理 */  
+					(	
+                      id                            /* id */ 
+                     ,act_id                        /* 活动id */ 
+                     ,openid                        /* 核销员id */ 
+                     ,status                        /* 状态（0启用/1未启用） */ 
+                     ,headimg                       /* 微信头像 */ 
+                     ,nickname                      /* 微信昵称 */ 
+					)
+			values (
+                      #{id,jdbcType=VARCHAR}                            /* id */ 
+                     ,#{actId,jdbcType=VARCHAR}                         /* 活动id */ 
+                     ,#{openid,jdbcType=VARCHAR}                        /* 核销员id */ 
+                     ,#{status,jdbcType=VARCHAR}                        /* 状态（0启用/1未启用） */ 
+                     ,#{headimg,jdbcType=VARCHAR}                       /* 微信头像 */ 
+                     ,#{nickname,jdbcType=VARCHAR}                      /* 微信昵称 */ 
+					)
+	</insert>
+
+	
+	<!--
+	方法名称: update
+	调用路径: com.jeecg.p3.jiugongge.verify.entity.WxActJiugonggeVerify.update
+	开发信息: 
+	处理信息: 修改信息
+	-->  
+	 <update id="update" parameterType="Object" >
+	  UPDATE   wx_act_jiugongge_verify  	/* 审核员管理 */
+	  			<trim   prefix="SET" suffixOverrides="," >
+						 <if test="actId != null">
+		    		 		/* 活动id */ 
+	    		 			act_id = #{actId,jdbcType=VARCHAR},
+						 </if>
+						 <if test="openid != null">
+		    		 		/* 核销员id */ 
+	    		 			openid = #{openid,jdbcType=VARCHAR},
+						 </if>
+						 <if test="status != null">
+		    		 		/* 状态（0启用/1未启用） */ 
+	    		 			status = #{status,jdbcType=VARCHAR},
+						 </if>
+						 <if test="headimg != null">
+		    		 		/* 微信头像 */ 
+	    		 			headimg = #{headimg,jdbcType=VARCHAR},
+						 </if>
+						 <if test="nickname != null">
+		    		 		/* 微信昵称 */ 
+	    		 			nickname = #{nickname,jdbcType=VARCHAR},
+						 </if>
+	  	  		</trim>
+				WHERE
+	  	 		 		id = #{id}		/* 序号 */ 
+	 </update>
+	
+	<!--
+	方法名称: get
+	调用路径: com.jeecg.p3.jiugongge.verify.entity.WxActJiugonggeVerify.get
+	开发信息: 
+	处理信息: 根据主键查询记录
+	-->
+	<select id="get" parameterType="Object"  resultMap="WxActJiugonggeVerify">
+		   SELECT   
+                   wajv.id                            /* id */ 
+                  ,wajv.act_id                        /* 活动id */ 
+                  ,wajv.openid                        /* 核销员id */ 
+                  ,wajv.status                        /* 状态（0启用/1未启用） */ 
+                  ,wajv.headimg                       /* 微信头像 */ 
+                  ,wajv.nickname                      /* 微信昵称 */ 
+		   FROM   wx_act_jiugongge_verify      AS wajv      /* 审核员管理 */ 
+		   WHERE
+				id = #{id}				/* 序号 */ 
+	</select>
+	
+	<select id="queryAllJiuGongGe" parameterType="Object"  resultMap="WxActJiugonggeVerify">
+	  SELECT
+			pr.`name`,
+			pr.jwid,
+			pr.img,
+			jgg.title,
+			re.award_code,
+			re.realname,
+			re.phone,
+			re.recieve_status,
+			jgg.endtime,
+			re.recieve_time
+		FROM
+			wx_act_jiugongge_prizes AS pr,
+			wx_act_jiugongge_relation AS rel,
+			wx_act_jiugongge_record AS re,
+			wx_act_jiugongge AS jgg
+		WHERE
+			re.award_code=#{cardPsd}
+		AND	
+			re.act_id=#{actId}
+		AND
+			rel.award_id=re.awards_id
+		AND
+			rel.act_id=#{actId}
+		AND
+			pr.id=rel.prize_id
+		AND
+			jgg.id=#{actId}
+	</select>
+	
+	<select id="queryByOpenId" parameterType="Object"  resultMap="WxActJiugonggeVerify">
+		   SELECT   
+                 *                  
+		   FROM   wx_act_jiugongge_verify      
+		   WHERE
+				openid = #{openid}				/* 序号 */ 
+			AND
+			    act_id = #{actId}
+	</select>
+	<!--
+	方法名称: delete
+	调用路径: com.jeecg.p3.jiugongge.verify.entity.WxActJiugonggeVerify.delete
+	开发信息: 
+	处理信息: 删除记录
+	-->
+	<delete id="delete" parameterType="Object">
+		DELETE 	FROM wx_act_jiugongge_verify 	/* 审核员管理 */  
+		WHERE 
+			id = #{id}					/* 序号 */ 
+	</delete>
+	
+	<!--
+	方法名称: count
+	调用路径: com.jeecg.p3.jiugongge.verify.entity.WxActJiugonggeVerify.count
+	开发信息: 
+	处理信息: 列表总数
+	-->
+	<select id="count" resultType="java.lang.Integer"  parameterType="Object">
+		SELECT count(*)  FROM  wx_act_jiugongge_verify      AS wajv      /* 审核员管理 */ 
+		 WHERE 1=1
+		    <include refid="wherecontation"/>
+	</select>
+  	
+  	<!--
+	方法名称: queryPageList
+	调用路径: com.jeecg.p3.jiugongge.verify.entity.WxActJiugonggeVerify.queryPageList
+	开发信息: 
+	处理信息: 列表
+	-->
+	<select id="queryPageList" parameterType="Object"  resultMap="WxActJiugonggeVerify">
+		    SELECT 
+                   wajv.id                            /* id */ 
+                  ,wajv.act_id                        /* 活动id */ 
+                  ,wajv.openid                        /* 核销员id */ 
+                  ,wajv.status                        /* 状态（0启用/1未启用） */ 
+                  ,wajv.headimg                       /* 微信头像 */ 
+                  ,wajv.nickname                      /* 微信昵称 */ 
+		FROM   	 wx_act_jiugongge_verify      AS wajv      /* 审核员管理 */ 
+		WHERE 1=1
+		   <include refid="wherecontation"/>
+		LIMIT  #{startRow}  		/* 开始序号 */ 
+			  ,#{pageSize}		/* 每页显示条数 */ 
+	</select>
+	
+</mapper>

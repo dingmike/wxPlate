@@ -1,0 +1,126 @@
+#set($version='?v=0.2.4')
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>$!{dictTool.getSysText('index.title',$!{shaketicket.id})}</title>
+	<meta charset="UTF-8">
+	<meta content="yes" name="apple-mobile-web-app-capable"></meta>
+	<meta content="black" name="apple-mobile-web-app-status-bar-style"></meta> 
+	<meta name="format-detection" content="telephone=no"></meta>
+	<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"></meta>
+	<meta content="yes" name="full-screen"></meta>
+	<meta content="true" name="x5-fullscreen"></meta>
+	<meta content="application" name="browsermode"></meta>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<link href="$!{basePath}/content/shaketicket/0830/css/xcszf.css$!{version}" type="text/css" rel="stylesheet" />
+		<style type="text/css">
+		</style>
+	</head> 
+	<body>
+	    <input type="hidden" name="jwid" id="jwid" value="$!{shaketicket.jwid}"/>
+	    <input type="hidden" name="actId" id="actId" value="$!{shaketicket.id}"/>
+		<div class="background">
+            		<img class="background_image" src="$!{basePath}/content/shaketicket/0830/img/bkground.jpg">
+            		<div class="zj"> 
+            		   <img src="$!{basePath}/content/shaketicket/0830/img/zj.png$!{version}"  class="bg"></img>
+            		   <div class="award" style="" ><img style="width:100%; display:block;" src="$!{award.img}"></img></div>
+					   <div class="sdll_cont_llj" id="sdll_cont_llj">
+    						#if($!{mobileflag})
+    							<input type="text" style="height:1.2rem;margin-top:.5rem" placeholder="请输入手机号" id="mobile"/>
+    							<div style="height:1px;clear:both"></div>
+    							<div style="margin-top:.3rem" onclick="lj()"><img style="width:7rem" src="$!{basePath}/content/shaketicket/0830/img/lj.png"/></div>
+								$!{award.awardsDescribe}
+							#else
+								#if($!{record.receiveStatus}=='1')
+									<p class="wz_conter huangs xz" style="font-size:1rem;color:#fff;">您已领奖</p>
+									<p class="wz_conter huangs xz" style="font-size:1rem;color:#fff">感谢您的支持</p>
+								#else
+									#if($!{award.cardId}=="AA001")
+										<p class="wz_conter huangs xz" style="font-size:1rem;color:#fff;">手机号码 : $!{record.mobile}</p>
+										$!{award.awardsDescribe}
+									#else
+									<p class="wz_conter huangs xz" style="font-size:1rem;color:#fff;">手机号码 : $!{record.mobile}</p>
+									<p class="wz_conter huangs xz" style="font-size:1rem;color:#fff">领奖密码  : $!{record.cardPsd}</p>
+									<p class="wz_conter huangs xz" style="font-size:.7rem;margin-top:.1rem;color:#fff">请勿外泄哦</p>
+									$!{award.awardsDescribe}
+									#end
+								#end
+							#end
+        				</div>
+						<div class="sdll_cont_llj" id="sdll_cont_sjh" style="display:none">
+							$!{award.awardsDescribe}
+        				</div>
+        				<div class="sdll_cont_tip">
+        				   ## <p class="wz_conter huis xzt">$!{dictTool.getSysText('ljtip',$!{shaketicket.id})}</p>		        
+        				</div>
+        			</div>
+					<div class="rule">
+						<a href="javascript:toDetail();" >
+							<span id="" style="color: white;">活动规则</span>
+						</a>
+					</div>
+            	</div> 
+	</body>
+	<script src="$!{basePath}/content/shaketicket/0830/js/jquery-1.8.0.min.js$!{version}" type="text/javascript"></script>
+	<script src="$!{basePath}/content/shaketicket/0830/js/wxcheck.js$!{version}" type="text/javascript"></script>
+	<script src="$!{basePath}/content/shaketicket/0830/js/common.js$!{version}" type="text/javascript"></script>
+<!-- 微信分享功能 -->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '$!{weixinDto.appid}', // 必填，公众号的唯一标识
+        timestamp: $!{timestamp}, // 必填，生成签名的时间戳
+        nonceStr: '$!{nonceStr}', // 必填，生成签名的随机串
+        signature: '$!{signature}',// 必填，签名，见附录1【必填：通过提供接口获取】
+        jsApiList: [
+    	         'checkJsApi',
+    	        'hideAllNonBaseMenuItem'
+    	        ]
+         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+	wx.ready(function () {
+		wx.hideAllNonBaseMenuItem();
+  	});
+	function lj(){
+		var cardId="$!{award.cardId}";
+		var mobile=$("#mobile").val();
+		var url="$!{basePath}/shaketicket/act/updateRecord.do";
+		var patrn= /^1((3\d)|(4[579])|(5[012356789])|(7[01235678])|(8\d))\d{8}$/;
+		if(!patrn.test(mobile)){ 
+			alert('请输入有效的手机号码！'); 
+			return false; 
+		} 
+		jQuery.ajax({
+			url:url,
+			type:"POST",
+			dataType:"JSON",
+			data:{
+				mobile:mobile,
+				recodeId:'$!{record.id}'
+			},
+			success:function(data){
+				if(data.success){
+				var hf="";
+				if(cardId=="AA001"){
+					hf=hf+"<p class=\"wz_conter huangs xz\" style=\"font-size:1rem;margin-top:.2rem;color:#fff;margin-top:.3rem\">手机号码 :"+mobile+"</p>";
+				}else{
+					hf=hf+"<p class=\"wz_conter huangs xz\" style=\"font-size:1rem;margin-top:.2rem;color:#fff;margin-top:.3rem\">手机号码 :"+mobile+"</p>"
+                           +"<p class=\"wz_conter huangs xz\" style=\"font-size:1rem;margin-top:.2rem;color:#fff\">领奖密码  : $!{record.cardPsd}</p>"
+    					   +"<p class=\"wz_conter huangs xz\" style=\"font-size:.7rem;margin-top:.3rem;color:#fff\">请勿外泄哦</p>";
+				}
+					$("#sdll_cont_llj").css("display","none");
+					$("#sdll_cont_sjh").css("display","block");
+					$("#sdll_cont_sjh").html(hf+$("#sdll_cont_sjh").html());
+				}else{
+					alert("手机号更新失败");
+				}
+			}
+		});
+	}
+</script>
+<script>
+$!{dictTool.getSysText('statistics',$!{shaketicket.id})}
+</script>
+</html>

@@ -1,0 +1,264 @@
+#parse("content/base/back/common/macro.vm")
+<!DOCTYPE html>
+<html lang="en">
+#parse("content/base/back/common/head.vm")
+<link href="$!{basePath}/plug-in/plugin/hplus/css/style.css" type="text/css" rel="stylesheet"/>
+<link href="$!{basePath}/plug-in/plugin/hplus/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
+<body style='overflow:scroll;overflow-x:hidden'>
+	<div class="container bs-docs-container" style="width:100%;">
+		<div class="row">
+			<form role="form" class="form-inline" action="$!{basePath}/shaketicket/back/wxActShaketicketHome/list.do" method="post"  id="formSubmit">
+				<div  class="col-md-10" style="width:100%">
+								<div class="panel panel-default">
+								  <div class="panel-heading">摇一摇活动配置</div>
+								  <div class="panel-body">
+								  		<div class="search">
+															 <div class="form-group col-sm-4">
+															    <label for="actName" class="control-label col-sm-3 line34">活动名称</label>
+															     <div class="col-sm-9">
+															    <input type="text" name="actName" id="actName" value="$!{wxActShaketicketHome.actName}" class="form-control">
+															  	</div>
+															 </div>
+															 #* <div class="form-group col-sm-6">
+															    <label for="activeFlag" class="control-label col-sm-3 line34">启用状态</label>
+															     <div class="col-sm-9">
+															    <select name="activeFlag" id="activeFlag" value="$!{wxActShaketicketHome.activeFlag}"  class="form-control" > 
+														      		  <option value="">请选择...</option>
+														      		  <option value="0" >停用</option>
+														      		  <option value="1" >启用</option>
+														      	 </select>
+															  	</div>
+															 </div>*#
+											  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> 搜  索</button>
+											  <div class="clearfix"></div>
+								  		</div>
+								  		<div id="legend">
+								          <legend  class="le">
+											<button type="button" class="btn btn-primary" onclick="doUrl('$!{basePath}/shaketicket/back/wxActShaketicketHome/toAdd.do')" ><span class="glyphicon glyphicon-plus"></span> 新增</button>
+										    <button type="button" class="btn btn-primary" onclick="doUrl('$!{basePath}/shaketicket/back/wxActShaketicketAward/list.do?showReturnFlag=1')" ><span class="glyphicon glyphicon-tag"></span> 奖项配置</button>
+										  </legend> 
+								        </div>
+								        <table class="table table-striped">
+									        <thead>
+													<th>活动名称</th>
+													##<th>启用状态</th>
+													##<th>个人抽奖总次数</th>
+													##<th>个人每日抽奖次数</th>
+													##<th>是否关注可参加 </th>
+													##<th>是否绑定手机可参加</th>
+													<th>起止时间</th>
+													<th>参赛条件</th>
+													##<th>兑奖截止时间</th>
+													##<th>状态设置</th>
+													<th>创建时间</th>
+						                			<th>操作</th>
+									        </thead>
+									        <tobody>
+									    	  #if($!{pageInfos})
+								                #foreach($!{info} in $!{pageInfos})
+									            	<tr>			
+														<td>$!{info.actName}</td>
+														<td>
+															$!dateTool.format("yyyy-MM-dd hh:mm:ss",$!{info.beginTime})~<br>
+															$!dateTool.format("yyyy-MM-dd hh:mm:ss",$!{info.endTime})
+														</td>
+														<td>
+															#if($!{info.foucsUserCanJoin}=='0')
+																是否关注可参与：<i class="glyphicon glyphicon-remove"></i><p></P>
+															#else
+																是否关注可参与：<i class="glyphicon glyphicon-ok"></i><p></P>
+															#end
+															#if($!{info.winCanJoin}=='0')
+																是否中奖可参与：<i class="glyphicon glyphicon-ok"></i><p></P>
+															#else
+																是否中奖可参与：<i class="glyphicon glyphicon-remove"></i><p></P>
+															#end
+														</td>
+																	##<td>#if($!info.activeFlag=='0') 停用 #else 激活  #end</td>
+																	##<td>$!{info.count}</td>
+																	##<td>$!{info.numPerDay}</td>
+																	##<td>#if($!info.foucsUserCanJoin=='0') 否 #else 是  #end</td>
+																	##<td>#if($!info.bindingMobileCanJoin=='0') 否 #else 是  #end</td>
+																	##<td>$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.deadlinetime})</td>
+																	##<td><a href="javascript:activeData('$!{basePath}/shaketicket/back/wxActShaketicketHome/active.do?id=$!{info.id}')" style="color:red;">#if($!info.activeFlag=='0')启用#else停用#end</a></td>
+																	<td>$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.createTime})</td>
+										                <td class="last">
+														<a class="btn btn-primary btn-xs" href="javascript:doUrl('$!{basePath}/shaketicket/back/wxActShaketicketHome/toEdit.do?id=$!{info.id}')" ><i class="fa fa-edit"></i> 编辑</a>	
+							                			#*#if($!info.activeFlag=='0')
+										                 <a href="javascript:doUrl('$!{basePath}/shaketicket/back/wxActShaketicketHome/toEdit.do?id=$!{info.id}')" >编辑</a>
+                                                         #else 
+                                                         <a href="javascript:alert('启用状态不允许编辑');" >编辑</a>
+                                                         #end*#
+							                			<a class="btn btn-danger btn-xs" href="javascript:delData('$!{basePath}/shaketicket/back/wxActShaketicketHome/doDelete.do?id=$!{info.id}')"><i class="fa fa-trash-o"></i> 删除</a>
+							                			##<a href="javascript:doUrl('$!{basePath}/shaketicket/back/wxActShaketicketHome/toDetail.do?id=$!{info.id}')">详情</a>
+                                                        <a class="btn btn-info btn-xs" href="javascript:doUrl('$!{basePath}/system/back/jwSystemActTxt/seniorActText.do?actCode=$!{info.id}&backurl=shaketicket/back/wxActShaketicketHome/list.do')"><i class="fa fa-gg"></i> 高级配置</a><p></p>
+							                			<a class="btn btn-info btn-xs" style="background-color: #1e90ff;border-color: #1e90ff" href="javascript:doUrl('$!{basePath}/shaketicket/back/wxActShaketicketRecord/list.do?actId=$!{info.id}&backurl=shaketicket/back/wxActShaketicketHome/list.do')"><i class="fa fa-file-text-o"></i> 抽奖记录</a>
+							                			<a class="btn btn-success btn-xs" style="background-color:#CD0009;border:none" href="javascript:dialogDiv('myModal','访问链接','$!{info.shortUrl}','$!{info.id}','$!{info.actName}')" style="color: #CD0009;font-weight:bloder;"><i class="fa fa-link"></i> [活动链接]</a>
+						                				</td>
+									           		</tr>
+									             #end
+									    	 #end
+									         </tobody>
+									    </table>
+										<div class="text-right">
+											<!--公用翻页代码-->
+							                #set($attr='formSubmit')
+							            	#showPageList($pageInfos $attr)
+							                <!--END公用翻页代码-->
+										</div>
+								  </div>	
+								</div>
+				</div>  
+				</form>
+		</div>
+	</div>
+		<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" 
+	               aria-hidden="true">×
+	            </button>
+	            <h4 class="modal-title" id="myModalLabel">
+	               模态框（Modal）标题
+	            </h4>
+	         </div>
+	   <div class="modal-body" style="word-break:break-all">
+                <div id="myModalContent" style="float:left;width:60%" aria-describedby="copy-button">按ESC关闭窗口</div>
+				<div id="downActName" style="display:none" ></div>
+				<div id="qrcode" style="float:right">
+                </div>
+	         </div>
+			 <div style="clear:both"></div>
+	         <div class="modal-footer" id="modal-footer">
+	            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> 关闭</button>
+	            <button type="button" class="btn btn-primary" id="copy-button" data-clipboard-action="copy" data-clipboard-target="#myModalContent"><i class="fa fa-copy"></i> 复制链接</button>
+				<button type="button" class="btn btn-warning" id="down-button" data-clipboard-action="down"><span class="glyphicon glyphicon-qrcode"></span> 下载二维码</button>
+	         </div>
+	      </div><!-- /.modal-content -->
+	   </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</body>
+<script src="$!{basePath}/content/shaketicket/back/js/jquery.qrcode.min.js" type="text/javascript"></script>
+<script src="$!{basePath}/content/shaketicket/back/js/clipboard.min.js" type="text/javascript"></script>
+<script>
+//下载二维码
+$("#down-button").click(function(){
+	var fileName=jQuery.trim($("#downActName").html());
+	var url = jQuery.trim($("#myModalContent").html());
+	url = "$!{basePath}/CommonController/downloadQRCode.do?url=" + url+"&fileName="+fileName;
+	window.location.href=url;
+});
+
+function activeData(url){
+	if(confirm("确认此操作吗？")){
+		jQuery.ajax({
+	      url: url,
+	      cache: false,
+		  dataType: "json",
+	      success: function(data){
+	    	  	if(data.success){
+	        		layeralert(data.msg);
+	        		document.getElementById('formSubmit').submit();
+	        	}else{
+	        		layeralert(data.msg);
+	        	}
+	      },  
+	        error: function(data, status, e){  
+	        	if(data.status == "401"){
+					layeralert("没有权限！");
+					return;
+				}
+	        }
+	    });
+	}
+}
+//网址模态框
+var flag="false";
+function dialogDiv(modalId,title,content,id,actName){ 
+$('#downActName').html(actName);
+	if(flag=="true")
+	{
+		return;
+	}
+	flag="true";
+	if(!content){
+		jQuery.ajax({
+			url:"$!{basePath}/shaketicket/back/wxActShaketicketHome/getShortUrl.do",
+			type:"POST",
+			dataType:"JSON",
+			data:{
+				id:id
+			},
+			success:function(data){
+				flag="false";
+				if(data.success){
+					content=data.obj;
+					$('#'+modalId+'Label').html(title);
+                 	$('#myModalContent').html(content);
+                	$('#'+modalId).modal({show:true});
+                	$("#qrcode").html("");
+                	if(content){
+    					if(content.length>100){
+        					$("#qrcode").html("<div id=\"codeico\"></div>");
+                    		generateQRCode("canvas",130, 130, content,"qrcode");
+							$("#codeico").css("margin","50px");
+    					}else{
+							$("#qrcode").html("<div id=\"codeico\"></div>");
+                    		generateQRCode("canvas",100, 100, content,"qrcode");
+							$("#codeico").css("margin","35px")
+						}
+                	}
+				}else{
+					content="当前活动没有活动链接！";
+					$('#'+modalId+'Label').html(title);
+                 	$('#myModalContent').html(content);
+                	$('#'+modalId).modal({show:true});
+					$("#qrcode").html("");
+					return;
+				}
+			}
+		});
+	}else{
+		flag="false";
+		$('#'+modalId+'Label').html(title);
+     	$('#myModalContent').html(content);
+    	$('#'+modalId).modal({show:true});
+    	$("#qrcode").html("");
+    	if(content){
+    		if(content.length>100){
+				$("#qrcode").html("<div id=\"codeico\"></div>");
+        		generateQRCode("canvas",130, 130, content,"qrcode");
+				$("#codeico").css("margin","50px");
+			}else{
+				$("#qrcode").html("<div id=\"codeico\"></div>");
+        		generateQRCode("canvas",100, 100, content,"qrcode");
+				$("#codeico").css("margin","35px")
+			}
+    	}
+	}
+}
+var clipboard = new Clipboard('#copy-button');
+clipboard.on('success', function(e) {
+	layeralert("已复制到粘贴板");
+    console.log(e);
+});
+
+clipboard.on('error', function(e) {
+    console.log(e);
+});
+</script>
+</html>
+## 公司二维码logo
+<style type="text/css">
+    #codeico{
+        position:fixed;
+        z-index:9999999;
+        width:30px; 
+        height:30px;
+		margin:50px;
+        background:url('$!{basePath}/content/shaketicket/back/js/qrcode.jpg') no-repeat;
+    }
+</style>

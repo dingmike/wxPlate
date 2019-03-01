@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+#parse("content/base/back/common/head.vm")
+<link href="$!{basePath}/plug-in/plugin/hplus/css/style.css" type="text/css" rel="stylesheet"/>
+<link href="$!{basePath}/plug-in/plugin/hplus/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
+<script src="$!{basePath}/content/jiugongge/back/wxActJiugongge.js?v=0.0.0.0.1" type="text/javascript"></script>
+<body style='overflow:scroll;overflow-x:hidden'>
+	<div class="container bs-docs-container" style="width:100%;">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading" style="34px">
+					<button type="button" class="btn btn-primary" id="formSubmit1" onclick="submitForm()"><span class="glyphicon glyphicon-ok"></span> 保存</button>
+					<button type="button" class="btn btn-default" id="formReturn" data-dismiss="modal" onclick="doUrl('$!{basePath}/jiugongge/back/wxActJiugongge/list.do')"><span class="glyphicon glyphicon-circle-arrow-left"></span> 返回</button>
+					<div style="height:1px;clear:both"></div>
+				</div>
+				<div class="panel-body">
+					<form class="form-horizontal" role="form" id="dailogForm" action="$!{basePath}/jiugongge/back/wxActJiugongge/doEdit.do" method="POST">
+						 <input type="hidden" id="btn_sub" class="btn_sub" />
+						 <input type="hidden" value="$!{wxActJiugongge.id}" name="id" id="id" />
+						 <div class="form-group mno">
+						    <div class="col-sm-4">
+    						    <label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">活动名称</label>
+    						    <div class="col-sm-8">
+    						      <input type="text" value="$!{wxActJiugongge.title}" name="title" id="title" class="form-control" datatype="*"/>
+    						    </div>
+    						 </div>
+							 <div class="col-sm-4">
+								<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">开始时间</label>
+    						    <div class="col-sm-8">
+    						      <input type="text" value="$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{wxActJiugongge.starttime})" name="starttime" id="starttime" class="form-control" datatype="*" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="background: url('$!{basePath}/plug-in/images/datetime.png') no-repeat scroll right center white;"/>
+    						    </div>
+                             </div>
+							 <div class="col-sm-4">
+    							 <label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">结束时间</label>
+    							 <div class="col-sm-8">
+    						      <input type="text" value="$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{wxActJiugongge.endtime})" name="endtime" id="endtime" class="form-control" datatype="*" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="background: url('$!{basePath}/plug-in/images/datetime.png') no-repeat scroll right center white;"/>
+    						    </div>
+                             </div>
+						 </div>
+						
+						<div class="form-group mno">
+							<div class="col-sm-4">
+    						    <label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">个人每日抽奖次数</label>
+    						    <div class="col-sm-8">
+    						      <input type="text" value="$!{wxActJiugongge.numPerDay}" name="numPerDay" id="numPerDay" class="form-control" holderholder="“0”表示每日抽奖次数不限制" datatype="n" errorMsg="只能输入整数值"/>
+    						    </div>
+						    </div>
+							<div class="col-sm-4">
+    						    <label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">个人抽奖总次数</label>
+    						    <div class="col-sm-8">
+    						      <input type="text" value="$!{wxActJiugongge.count}" name="count" id="count" placeholder="“0”表示抽奖总次数不限制" class="form-control" datatype="n" errorMsg="只能输入整数值"/>
+    						    </div>
+						    </div>
+							<div class="col-sm-4">
+    						    <label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">是否关注可参加</label>
+    						    <div class="col-sm-8">
+    						      <select name="foucsUserCanJoin" id="foucsUserCanJoin"  value="$!{wxActJiugongge.foucsUserCanJoin}" class="form-control" datatype="*"> 
+    					      		<option value="0" #if($!{wxActJiugongge.foucsUserCanJoin}=="0")selected#end>否</option>
+    					      		<option value="1" #if($!{wxActJiugongge.foucsUserCanJoin}=="1")selected#end>是</option>
+    					      	  </select>
+    						    </div>
+						    </div>
+						</div>
+						#*
+						<div class="form-group mno">
+						    <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">是否绑定手机可参加</label>
+						    <div class="col-sm-8">
+						      <select name="bindingMobileCanJoin" id="bindingMobileCanJoin"  value="$!{wxActJiugongge.bindingMobileCanJoin}" class="form-control" > 
+					      		<option value="0" >否</option>
+					      		<option value="1" >是</option>
+					      	  </select>
+						    </div>
+						</div>
+						*#
+						<div class="form-group mno">
+							<div class="col-sm-4">
+    						    <label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">是否中奖可继续参与</label>
+    						    <div class="col-sm-8">
+    						      <select value="$!{wxActJiugongge.prizeStatus}" name="prizeStatus" id="prizeStatus"  class="form-control" datatype="*"> 
+    					      		<option value="0" #if($!{wxActJiugongge.prizeStatus}=="0")selected#end>中奖可继续参与</option>
+    					      		<option value="1" #if($!{wxActJiugongge.prizeStatus}=="1")selected#end>中奖不可继续参与</option>
+    					      	  </select>
+    						    </div>
+						    </div>
+							<div class="col-sm-4">
+									<label for="inputEmail3" class="col-sm-4 control-label" style="text-align:left;">限制参与总人数</label>
+        						    <div class="col-sm-8">
+        						      <select name="joinNum" id="joinNum" datatype="*"  value="$!{wxActJiugongge.joinNum}" class="form-control" > 
+										#foreach($joinNumEnum in $joinNumEnums)
+        					      		<option #if($!{wxActJiugongge.joinNum}==$joinNumEnum.code) selected#else#end value="$joinNumEnum.code" >$joinNumEnum.value</option>
+										#end
+        					      	  </select>
+        						    </div>
+                                </div>
+						</div>
+						<div class="form-group mno">
+							<div class="col-sm-8">
+    						    <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">活动规则</label>
+    						    <div class="col-sm-10">
+    						      <script type="text/plain" name="description" id="description" style="height:100px;width:100%">$!{wxActJiugongge.description}</script>
+    						    </div>
+    						</div>
+						</div>
+					<div class="form-group mno">
+							<ul id="tab_menu" class="nav nav-tabs">
+								<li class="active">
+									<a href="#jpDemoOrderProduct" data-toggle="tab">
+										奖品明细
+									</a>
+                                </li>
+                            </ul>											
+							<!-- //update-begin--Author:zhangjiaqiang  Date:20160906 for：【插件demo】一对多，明细行间距太大 -->
+							<div id="tab_menu_content" class="tab-content">
+								<div class="tab-pane fade in active" id="jpDemoOrderProduct">
+									<button type="button" id="jpDemoOrderProduct_add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+									<button type="button" id="jpDemoOrderProduct_del" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                                    <table class="table table-striped" id="jpDemoOrderProduct_table" style="margin-top:15px;">
+										<thead>
+											<tr>
+                                                <th>ID</th>
+                                                <th>奖项</th>
+												<th>奖品</th>
+												<th>数量</th>
+												<th>中奖概率&nbsp<span style="font-size:3px;color:rgb(72, 167, 231);">(例如0.5,不大于1)</span></th>
+											</tr>
+                                        </thead>
+										<tbody>
+										
+											#foreach($awarsDetail in $awarsDetailList)
+								            	<tr>
+													<td style="display: none">
+                                                        <input value="$!{awarsDetail.id}" name="awarsList[#index#].id"/>	
+													</td>
+													<td >
+                                            			<input type="checkbox" name="awarsList[#index#].idCheck"/>
+                                                    </td>
+								            	    <td>
+														<input  class="form-control awardItem" onclick="showAwardItem(this)" name="awarsList[#index#].awardName" value='#foreach($award in $awards)#if("$!{awarsDetail.awardId}"=="$!award.id")$!award.awardsName#end#end' datatype="*"/>
+                                    					<input type="hidden" name="awarsList[#index#].awardId" value="$!{awarsDetail.awardId}"/>
+								            	    	#*<select name="awarsList[#index#].awardId"  class="form-control" datatype="*"> 
+													    	#foreach($award in $awards)
+												      			<option value="$!award.id" #if("$!{awarsDetail.awardId}" == "$!award.id")selected#end>$!award.awardsName</option>
+												      		#end
+											      	    </select>*#
+													</td>		
+													<td>
+														<input  class="form-control awardItem" onclick="showPrizeItem(this)" name="awarsList[#index#].prizeName" value='#foreach($prize in $prizes)#if("$!{awarsDetail.prizeId}"=="$!prize.id")$!prize.name#end#end' datatype="*"/>
+														<input type="hidden" name="awarsList[#index#].prizeId" value="$!{awarsDetail.prizeId}"/>
+														 #*<select name="awarsList[#index#].prizeId"  class="form-control" datatype="*"> 
+													    	#foreach($prize in $prizes)
+												      			<option value="$!prize.id" #if("$!{awarsDetail.prizeId}" == "$!prize.id")selected#end>$!prize.name</option>
+												      		#end
+												      	 </select>*#
+                                                    </td>														
+													<td><input type="text" name="awarsList[#index#].amount" class="form-control" value="$!{awarsDetail.amount}" ignore="ignore" datatype="n" errorMsg="只能输入整数值"/></td>
+													##<td><input type="text" name="awarsList[0].remainNum" class="form-control" value="$!{awarsDetail.remainNum}" ignore="ignore" datatype="n" errorMsg="只能输入整数值"/></td>
+													<td><input type="text"  name="awarsList[#index#].probability"  class="form-control" value="$!{awarsDetail.probability}" ignore="ignore" datatype="/^(0|0\.\d*|1(\.0{1,2})?)$/" errorMsg="只能输入大于等于0到小于等于1之间的数"/></td>
+									                
+								           		</tr>
+								           	#end
+                                        </tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<table style="display:none;">
+        <tbody id="add_jpDemoOrderProduct_template">
+        	<tr>
+        		<td >
+        			<input type="checkbox" name="awarsList[#index#].idCheck"/>
+                </td>
+        		<td>
+					<input  class="form-control awardItem" onclick="showAwardItem(this)" name="awarsList[#index#].awardName" datatype="*"/>
+					<input type="hidden" name="awarsList[#index#].awardId" />
+					
+        	    	#*<select name="awarsList[#index#].awardId"  class="form-control" datatype="*"> 
+    			    	#foreach($award in $awards)
+    		      			<option value="$!award.id" >$!award.awardsName</option>
+    		      		#end
+    	      	     </select>*#
+    			</td>		
+    			<td>
+					<input  class="form-control awardItem" onclick="showPrizeItem(this)" name="awarsList[#index#].prizeName" datatype="*"/>
+					<input type="hidden" name="awarsList[#index#].prizeId" />
+    				 #*<select name="awarsList[#index#].prizeId"  class="form-control" datatype="*"> 
+    			    	#foreach($prize in $prizes)
+    		      			<option value="$!prize.id" >$!prize.name</option>
+    		      		#end
+    		      	 </select>*#
+                </td>														
+    			<td>
+    				<input type="text" name="awarsList[#index#].amount" value="10" class="form-control" ignore="ignore" datatype="n" errorMsg="只能输入整数值"/>
+    			</td>
+    			<td>
+    				<input type="text" value="0.1"  name="awarsList[#index#].probability" class="form-control" ignore="ignore" datatype="/^(0|0\.\d*|1(\.0{1,2})?)$/" errorMsg="只能输入大于等于0到小于等于1之间的数"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<div id="awardItemDiv" style="display:none; position: absolute;background-color: #fff;border: 1px solid;margin-bottom: 5%;height: 300px;overflow: scroll;"></div>
+</body>
+</html>
+<script type="text/javascript" src="$!{basePath}/plug-in/js/Validform_v5.3.2.js"></script> 
+<script type="text/javascript" src="$!{basePath}/plug-in/js/forminit.p3.js"></script>
+<script src="$!{basePath}/content/jiugongge/js/common.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8" src="$!{basePath}/plug-in/plugin/UEditor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="$!{basePath}/plug-in/plugin/UEditor/umeditor.min.js"></script>
+<script type="text/javascript" src="$!{basePath}/plug-in/plugin/UEditor/lang/zh-cn/zh-cn.js"></script>
+<link href="$!{basePath}/plug-in/plugin/UEditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<script>
+$opt={toolbar:[
+            'undo redo | bold italic underline strikethrough | forecolor backcolor |',
+            'insertorderedlist insertunorderedlist | link unlink ' ,
+            '| justifyleft justifycenter justifyright justifyjustify |paragraph fontfamily fontsize',
+            ' | fullscreen']};
+var um = UM.getEditor('description',$opt);
+function addAwards(){
+	$('#table_awards').toggle();
+	$('#addBtn').toggle();
+}
+
+function del(obj){
+	 	var $this = $(obj);
+        $this.parent().parent().remove(); 
+	 	resetIndex('tbody_awards');
+}
+</script>
+<script >
+jQuery(function(){
+	$("tbody .Validform_checktip").remove();
+	resetTrNum('jpDemoOrderProduct_table');
+});
+</script>
+
+<script >
+
+function submitForm(){
+	var submitFlag=true;
+	$('input[name^=awarsList][name$=Name]').each(function(i){
+		if(i<2){
+    		if(!$(this).val()){
+    			layeralert("请先配置奖项和奖品再录入活动",0);
+				submitFlag=false;
+    			return false;
+    		}
+		}
+	});
+	if(submitFlag){
+    	var form = $("#dailogForm").Validform();
+        form.config({tiptype:4});
+    	var flag = form.check();
+    	if(flag){
+    		parent.layer.confirm('确认提交吗？', {
+    		    btn: ['确定','取消'] //按钮
+    		}, function(){
+    			ajaxdoFormSubmit('dailogForm');
+    		}, function(){
+    		   
+    		});
+    	}else{
+    		layeralert("信息校验没有通过，请检查填写的信息",0);
+    	}
+	}
+}
+
+function showAwardItem(e){
+	var items=[];
+	#foreach($award in $awards)
+    	var item={};
+		item.id="$!award.id";
+		item.value="$!award.awardsName";
+		items.push(item);
+	#end
+	ProcessAwardItem(e,items);
+}
+
+function showPrizeItem(e){
+	var items=[];
+	#foreach($prize in $prizes)
+    	var item={};
+		item.id="$!prize.id";
+		item.value="$!prize.name";
+		items.push(item);
+	#end
+	ProcessAwardItem(e,items);
+}
+
+
+String.prototype.endWith=function(str){     
+  var reg=new RegExp(str+"$");     
+  return reg.test(this);        
+}
+
+
+$(function(){
+	$("html").on("mousedown",function(e){
+		if(!e.target.className.endWith("awardItem")){
+			$("#awardItemDiv").fadeOut("fast");
+		}
+	});
+});
+
+var $this;
+
+function ProcessAwardItem(e,items){
+
+	$this=$(e);
+	
+	var option='';
+	jQuery.each(items,function(index,obj){
+		option+='<a href="javascript:;" onclick=showData("'+obj.id+'","'+obj.value+'") class="list-group-item">'+obj.value+'</a>';
+	});
+	$('#awardItemDiv').html(option);
+	
+	var thisPosition= $this.offset();
+	if($("#awardItemDiv").is(':hidden')){
+    	$("#awardItemDiv").css({left:thisPosition.left + "px", top:(thisPosition.top+$this.outerHeight())+"px",width:$this.outerWidth()+"px"}).slideDown("fast");
+	}else{
+		$("#awardItemDiv").fadeOut("fast");
+	}
+}
+
+function showData(id,value){
+	$this.val(value)
+	$($this.next("input")).val(id);
+	$("#awardItemDiv").fadeOut("fast");
+}
+</script>

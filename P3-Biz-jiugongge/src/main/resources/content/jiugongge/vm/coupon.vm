@@ -1,0 +1,123 @@
+#set($version='?v=0.0.0')
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>中奖券核销中心</title>
+<base href="$!{basePath}/"/>
+<link rel="stylesheet" type="text/css" href="content/jiugongge/css/foxui.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="content/jiugongge/css/style.css"> -->
+<link rel="stylesheet" type="text/css" href="content/jiugongge/css/iconfont.css">
+<link rel="stylesheet" type="text/css" href="content/jiugongge/css/coupon.css?v=2.0.0">
+<link rel="stylesheet" type="text/css" href="content/jiugongge/css/coupon-new.css">
+<script src="content/jiugongge/js/jquery.min.js"></script>
+<script type="text/javascript" src="content/jiugongge/js/hideShareMenu.js"></script>
+</head>
+<body>
+		<div class="fui-header" style="height:47px;">
+			<div class="title" style="font-size:15px;font-weight:bold;" >中奖券核销中心</div>
+		</div>
+		<div class="fui-content coupon-index-bg" style="height: 100%;">
+			<div class="searchbar center searchbar-active" style="height:17%;top:2%">
+	            <div class="search-input">
+	            	<input type="search" style="height:40px;width:75%;" class="search" id="search" name="search" placeholder="输入关键字...">
+	           		<div onclick="doSearch()" class='btn btn-danger' style="width: 20%;font-size: 1em;left: 76%;top: -38px; margin: auto;">搜索</div>
+	            </div>
+            </div>
+			<div id="container" class="coupon-container coupon-list" style="height:200px;">
+					<div class="coupon-item blue" style="height:100%;">
+						<div class="coupon-left" style="width:30%;" >
+							<div class="title" style="position: relative;top:5%;font-size: 1.1em;" id="prizesname">$!{veri.name}</div>
+							<div class="subtitle" style="width:80px;height:80px;margin:auto;" id="prizesimg"><img src="$!{basePath}/upload/img/jiugongge/$!{veri.jwid}/$!{veri.img}" /> </div>
+						</div>
+						<div class="coupon-right" style="width:70%;" >
+							<div style="height:35px; " id="jiugonggetitle"><span style="font-size:1.1em;">$!{veri.title}</span></div>
+							<div style="height:35px;" id="recordawardCode"><span style="font-weight: bold;font-size:1em;">$!{veri.awardCode}</span></div>
+							<div id="recordrealname"><span style="font-weight: bold;" >姓名:&nbsp;&nbsp;</span>$!{veri.realname}</div>
+							<div id="recordphone"><span style="font-weight: bold;" >手机:&nbsp;&nbsp;</span>$!{veri.phone}</div>
+							<div class="usetime" style="position:absolute;bottom:0;">
+								<div id="reviewtime" style="font-size: 12px;">
+								#if($!{veri.recieveStatus}==0)
+									即$!{Format.date($!{veri.endtime},'yyyy-MM-dd')}之前有效
+								#else
+									核销时间&nbsp;:&nbsp;$!{Format.date($!{veri.recieveTime},'yyyy-MM-dd')}
+								#end
+								</div>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<div id="reviewtext" class="usebtn" style="width:50px;height:23px;">
+								#if($!{veri.recieveStatus}==0)
+								未领取
+								#else
+								已核销
+								#end
+								</div>
+							</div>
+						</div>
+					</div>
+					
+			</div>
+			<div id="reviewbutn">
+			#if($!{veri.recieveStatus}==0)
+			<div id="reviewOver" class='btn btn-default btn-default-o order-cancel' style="top:35px;width: 80%;left: 10%;height:40px;font-size:20px;line-height: 2;display:none;">奖品已核销</div>
+			<div id="review" class='btn btn-danger' onclick="doVerificationreview();" style="top:35px;width: 80%;left: 10%;height:40px;font-size:20px;line-height: 2;">核销奖品</div>	
+			#else
+			<div id="reviewOver" class='btn btn-default btn-default-o order-cancel' style="top:35px;width: 80%;left: 10%;height:40px;font-size:20px;line-height: 2;">奖品已核销</div>
+			<div id="review" class='btn btn-danger' onclick="doVerificationreview();" style="top:35px;width: 80%;left: 10%;height:40px;font-size:20px;line-height: 2;display:none;">核销奖品</div>	
+			#end
+			</div>
+		</div>
+</body>
+</html>
+<script>
+function doVerificationreview(){
+	var awardcode =$('#awardcode').val();
+	if(awardcode==null){
+		awardcode='$!{veri.awardCode}';
+	}else{
+		awardcode=$('#awardcode').val();
+	}
+	jQuery.ajax({
+		url:"$!{basePath}/jiugongge/doVerify.do",
+		type:"POST",
+		dataType:"JSON",
+		data:{
+			openid:'$!{verify.openid}',
+			awardCode:awardcode,
+			actId:'$!{verify.actId}'
+		},
+		success:function(data){
+			if(data.success){
+				$('#review').css('display','none');
+				$("#reviewOver").css('display','block');
+				$("#reviewtext").html('已核销');
+			}
+		}
+	});
+};
+function doSearch(){
+	var search=$('#search').val();
+	if(search==""||search==null){
+		alert("搜索内容不可为空")
+	}else{
+		jQuery.ajax({
+			url:"$!{basePath}/jiugongge/doSearch.do",
+			type:"POST",
+			dataType:"JSON",
+			data:{
+				search:search,
+				actId:'$!{verify.actId}'
+			},
+			success:function(data){
+				if(data.success){
+					eval(data.obj);
+				}else{
+					alert("搜索内容不存在！");
+				}
+				
+			}
+		});
+	}
+}
+</script>

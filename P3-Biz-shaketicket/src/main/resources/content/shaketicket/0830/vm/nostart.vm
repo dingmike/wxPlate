@@ -1,0 +1,89 @@
+#set($version='?v=0.0.2')
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>$!{dictTool.getSysText('index.title',$!{shaketicket.id})}</title>
+	<meta charset="UTF-8">
+	<meta content="yes" name="apple-mobile-web-app-capable"></meta>
+	<meta content="black" name="apple-mobile-web-app-status-bar-style"></meta> 
+	<meta name="format-detection" content="telephone=no"></meta>
+	<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"></meta>
+	<meta content="yes" name="full-screen"></meta>
+	<meta content="true" name="x5-fullscreen"></meta>
+	<meta content="application" name="browsermode"></meta>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<script src="$!{basePath}/content/shaketicket/0830/js/wxcheck.js$!{version}" type="text/javascript"></script>
+	<script src="$!{basePath}/content/shaketicket/0830/js/jquery-1.8.0.min.js$!{version}" type="text/javascript"></script>
+		<style type="text/css">
+        *{padding: 0; margin: 0}
+        	.button0{
+			    position: fixed;
+			    margin-left: 9%;
+			    display: block;
+			    width: 80%;
+			    top: 28%;
+	        }
+	        .background{
+	        	position: fixed;
+	        	width: 100%;
+	            height: 100%;
+	            text-align: center;
+	        }
+	        .background_image{
+	        	width: 100%;
+	            height: 100%;
+	        }	     
+	        .rule{
+	        	background: rgba(0,0,0,0.2);				
+				text-align: center;
+				position: fixed;
+				left: 0;
+				bottom: 0px;
+				width: 100%;
+				height: 25px;
+				line-height: 25px;
+				z-index: 1010;
+				font-size: 16px;
+				
+	        }   	
+	        a {text-transform:none;text-decoration:none;}        
+		</style>
+	</head> 
+	<body>
+	    <input type="hidden" name="jwid" id="jwid" value="$!{shaketicket.jwid}"/>
+	    <input type="hidden" name="actId" id="actId" value="$!{shaketicket.id}"/>
+		<div class="background">
+    		<img class="background_image" src="$!{basePath}/content/shaketicket/0830/img/bkground.jpg">
+    		<img src="$!{basePath}/content/shaketicket/0830/img/nostart.png"  class="button0"></img></div>
+    	</div> 
+		<div class="rule">
+    		<a href="javascript:toDetail();" >
+    			<span id="" style="color: white;">活动规则</span>
+    		</a>
+		</div>
+	</body>
+<!-- 微信分享功能 -->
+	<script src="$!{basePath}/content/shaketicket/0830/js/common.js$!{version}" type="text/javascript"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '$!{weixinDto.appid}', // 必填，公众号的唯一标识
+        timestamp: $!{timestamp}, // 必填，生成签名的时间戳
+        nonceStr: '$!{nonceStr}', // 必填，生成签名的随机串
+        signature: '$!{signature}',// 必填，签名，见附录1【必填：通过提供接口获取】
+        jsApiList: [
+    	         'checkJsApi',
+    	        'hideAllNonBaseMenuItem'
+    	        ]
+         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+ wx.ready(function () {
+		wx.hideAllNonBaseMenuItem();
+  	});
+</script>
+<script>
+$!{dictTool.getSysText('statistics',$!{shaketicket.id})}
+</script>
+</html>

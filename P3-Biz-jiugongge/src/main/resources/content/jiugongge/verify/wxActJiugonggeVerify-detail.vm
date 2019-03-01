@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+#parse("content/base/back/common/head.vm")
+<body style='overflow:scroll;overflow-x:hidden'>
+	<div class="container bs-docs-container" style="width:100%;">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<button type="button" class="btn btn-default" id="formReturn" data-dismiss="modal" onclick="doUrl('$!{basePath}/verify/back/wxActJiugonggeVerify/list.do?actId=$!{wxActJiugonggeVerify.actId}')"><span class="glyphicon glyphicon-circle-arrow-left"></span> 返回</button>
+					<div style="height:1px;clear:both"></div>
+				</div>
+				  	<div class="panel-body">
+				   		<form class="form-horizontal" role="form">
+							  <fieldset disabled>
+													 <div class="form-group mno">
+													    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">核销员openId</label>
+													    <div class="col-sm-2">
+													      <input type="text" value="$!{wxActJiugonggeVerify.openid}" name="openid" id="openid" class="form-control" />
+													    </div>
+													  </div>
+													 #*
+													 <div class="form-group mno">
+													    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">状态（启用1未启用）</label>
+													    <div class="col-sm-2">
+													    #if($!{wxActJiugonggeVerify.status}==0)
+													      <input type="text" value="启用" name="status" id="status" class="form-control" />
+													      #else
+													      <input type="text" value="停用" name="status" id="status" class="form-control" />
+													    #end
+													    </div>
+													  </div>
+													 <div class="form-group mno">
+													    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">微信头像</label>
+													    <div class="col-sm-2">
+													      <input type="text" value="$!{wxActJiugonggeVerify.headimg}" name="headimg" id="headimg" class="form-control" />
+													    </div>
+													  </div>*#
+													 <div class="form-group mno">
+													    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">微信昵称</label>
+													    <div class="col-sm-2">
+													      <input type="text" value="$!{wxActJiugonggeVerify.nickname}" name="nickname" id="nickname" class="form-control" />
+													    </div>
+													  </div>
+							  </fieldset>
+						</form>
+					</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,170 @@
+#parse("content/base/back/common/macro.vm")
+<!DOCTYPE html>
+<html lang="en">
+#parse("content/base/back/common/head.vm")
+<link href="$!{basePath}/plug-in/plugin/hplus/css/style.css" type="text/css" rel="stylesheet"/>
+<link href="$!{basePath}/plug-in/plugin/hplus/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
+<body style='overflow:scroll;overflow-x:hidden'>
+	<div class="container bs-docs-container" style="width:100%;">
+		<div class="row">
+			<form role="form" class="form-inline" action="$!{basePath}/jiugongge/back/wxActJiugonggeRecord/list.do?backurl=$!{backurl}" method="post"  id="formSubmit">
+				<div  class="col-md-10" style="width:100%">
+				<input type="hidden" name="actId" value="$!{wxActJiugonggeRecord.actId}"/>
+								<div class="panel panel-default">
+								  <div class="panel-heading" style="34px">
+									<button type="button" class="btn btn-default" id="formReturn" data-dismiss="modal" onclick="doUrl('$!{basePath}/jiugongge/back/wxActJiugongge/list.do')"><span class="glyphicon glyphicon-circle-arrow-left"></span> 返回</button>
+                					<div style="height:1px;clear:both"></div>
+                				  </div>
+								  <div class="panel-body">
+								  		<div class="search">
+															 <div class="form-group col-sm-4">
+															    <label for="openid" class="control-label col-sm-2 line34">openid</label>
+															     <div class="col-sm-8">
+															    <input type="text" name="openid" id="openid" value="$!{wxActJiugonggeRecord.openid}" class="form-control">
+															  	</div>
+															 </div>
+															 <div class="form-group col-sm-4">
+															    <label for="nickname" class="control-label col-sm-2 line34">昵称</label>
+															     <div class="col-sm-8">
+															    <input type="text" name="nickname" id="nickname" value="$!{wxActJiugonggeRecord.nickname}" class="form-control">
+															  	</div>
+															 </div>
+															 <div class="form-group col-sm-4">
+															    <label for="awardsId" class="control-label col-sm-2 line34">奖项</label>
+															     <div class="col-sm-8">
+															    <select name="awardsId" id="awardsId" value="$!{wxActJiugonggeRecord.awardsId}" class="form-control" >
+															        <option value="">请选择...</option>
+													      			#foreach($award in $awards)
+													      				<option value="$!award.id" #if("$!award.id" == "$!{wxActJiugonggeRecord.awardsId}") selected="selected" #end>$!award.awardsName</option>
+													      			#end
+												      	         </select>
+															  	</div>
+															 </div>
+															 <div class="form-group col-sm-4">
+															    <label for="awardCode" class="control-label col-sm-2 line34">兑奖码</label>
+															     <div class="col-sm-8">
+															    <input type="text" name="awardCode" id="awardCode" value="$!{wxActJiugonggeRecord.awardCode}" class="form-control">
+															  	</div>
+															 </div>
+															 <div class="form-group col-sm-4">
+															    <label for="realname" class="control-label col-sm-2 line34">姓名</label>
+															     <div class="col-sm-8">
+															    <input type="text" name="realname" id="realname" value="$!{wxActJiugonggeRecord.realname}" class="form-control">
+															  	</div>
+															 </div>
+															 <div class="form-group col-sm-4">
+															    <label for="phone" class="control-label col-sm-2 line34">电话</label>
+															     <div class="col-sm-8">
+															    <input type="text" name="phone" id="phone" value="$!{wxActJiugonggeRecord.phone}" class="form-control">
+															  	</div>
+															 </div>
+															 <div class="form-group col-sm-4">
+															    <label for="address" class="control-label col-sm-2 line34">地址</label>
+															     <div class="col-sm-8">
+															    <input type="text" name="address" id="address" value="$!{wxActJiugonggeRecord.address}" class="form-control">
+															  	</div>
+															 </div>
+															 <!--<div class="form-group col-sm-4">
+															    <label for="awardsId" class="control-label col-sm-4 line34">是否中奖</label>
+															     <div class="col-sm-8">
+															    <select name="status" id="status" value="$!{wxActJiugonggeRecord.status}" class="form-control" >
+															        <option value="">请选择...</option>
+													      			<option value="1" #if($!{wxActJiugonggeRecord.status}=="1")selected#end>中奖</option>
+																	<option value="2" #if($!{wxActJiugonggeRecord.status}=="2")selected#end>未中奖</option>
+												      	         </select>
+															  	</div>
+															 </div>-->
+											  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> 搜  索</button>
+											  <div class="clearfix"></div>
+								  		</div>
+								  		<div id="legend">
+								          <legend  class="le"><a class="btn btn-primary" href="javascript:doUrl('$!{basePath}/jiugongge/back/wxActJiugonggeRecord/exportExcel.do?actId=$!{wxActJiugonggeRecord.actId}')"><span class="glyphicon glyphicon-export"></span> 导出中奖记录</a></legend>
+								        </div>
+								        <table class="table table-striped">
+									        <thead>
+													##<th>活动id</th>
+													<th>活动名称</th>
+													<th>openid</th>
+													<th>昵称</th>
+													<th>抽奖时间</th>
+													<th>是否中奖</th>
+                                                    <th>兑奖码</th>
+													<th>奖项</th>
+													<th>姓名</th>
+													<th>电话</th>
+													<th>地址</th>
+													<th hidden>抽奖序号</th>
+						                			<th>操作</th>
+									        </thead>
+									        <tobody>
+									    	  #if($!{pageInfos})
+								                #foreach($!{info} in $!{pageInfos})
+									            	<tr>			
+																	##<td>$!{info.actId}</td>
+																	<td>$!{info.actName}</td>
+																	<td>$!{info.openid}</td>
+																	<td>$!{info.nickname}</td>
+																	<td>$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.awardTime})</td>
+																	<td>#if($!{info.awardStatus}=="1") 是#else 否#end</td>
+																	<td>$!{info.awardCode}</td>	
+																	<td>$!{info.awardsName}</td>
+																	<td>$!{info.realname}</td>
+																	<td>$!{info.phone}</td>
+																	<td>$!{info.address}</td>
+																	##<td hidden>$!{info.seq}</td>
+										                <td class="last">
+							                			##<a class="btn btn-xs btn-primary" href="javascript:doUrl('$!{basePath}/jiugongge/back/wxActJiugonggeRecord/toDetail.do?id=$!{info.id}')" style="background-color: #1e90ff;border-color: #1e90ff"><i class="fa fa-th-list"></i> 详情</a>
+														#if($!{info.awardStatus}=="1")
+															#if($!{info.recieveStatus}=="1")
+																<a class="btn btn-danger btn-xs"><i class="fa fa-user"></i> 已领奖</a>
+															#else
+																<a class="btn btn-xs btn-success" class="btn btn-success btn-xs" href="javascript:doRecieve('$!{info.id}','1')" style="background-Color:#CD0009;border:none"><i class="fa fa-ticket"></i> 核销</a>
+															#end
+														#end
+														</td>
+									           		</tr>
+									             #end
+									    	 #end
+									         </tobody>
+									    </table>
+										<div class="text-right">
+											<!--公用翻页代码-->
+							                #set($attr='formSubmit')
+							            	#showPageList($pageInfos $attr)
+							                <!--END公用翻页代码-->
+										</div>
+								  </div>	
+								</div>
+				</div>  
+				</form>
+		</div>
+	</div>
+</body>
+</html>
+<script src="$!{basePath}/content/jiugongge/js/jquery.qrcode.min.js" type="text/javascript"></script>
+<script src="$!{basePath}/content/jiugongge/js/clipboard.min.js" type="text/javascript"></script>
+<script >
+function doRecieve(id,recieveStatus){
+	parent.layer.confirm('确认领取该奖品吗？', {
+    btn: ['确定','取消'] //按钮
+    		}, function(){
+			jQuery.ajax({
+        		type:'post',
+        		url:"$!{basePath}/jiugongge/back/wxActJiugonggeRecord/doEdit.do",
+        		dataType:'json',
+        		data:{
+        				id:id,
+        				recieveStatus:recieveStatus
+        		},
+        		success:function(data){
+        			layeralert("领取成功！");
+        			location.href="";
+        		},
+        		error:function(data){
+				}
+        	});
+    }, function(){
+    		   
+    });
+}
+</script>

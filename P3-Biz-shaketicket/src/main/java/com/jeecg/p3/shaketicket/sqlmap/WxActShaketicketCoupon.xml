@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD iBatis Mapper 3.0 //EN" 
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.jeecg.p3.shaketicket.entity.WxActShaketicketCoupon">
+
+	<!-- Result Map-->
+	<resultMap id="WxActShaketicketCoupon" type="com.jeecg.p3.shaketicket.entity.WxActShaketicketCoupon" >
+		<result column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="act_id" property="actId" jdbcType="VARCHAR"/>
+		<result column="awards_id" property="awardsId" jdbcType="VARCHAR"/>
+		<result column="card_psd" property="cardPsd" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="VARCHAR"/>
+		<result column="jwid" property="jwid" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 查询条件 -->
+	<sql id="wherecontation">
+		<trim  suffixOverrides="," >
+				 <if test="query.actId != null and query.actId != ''" >
+	  		 		/*  */
+			    	AND wasc.act_id =  #{query.actId,jdbcType=VARCHAR}
+				 </if>
+				 <if test="query.awardsId != null and query.awardsId != ''" >
+	  		 		/* 奖项ID */
+			    	AND wasc.awards_id =  #{query.awardsId,jdbcType=VARCHAR}
+				 </if>
+				 <if test="query.cardPsd != null and query.cardPsd != ''" >
+	  		 		/* 卡券密码 */
+			    	AND wasc.card_psd =  #{query.cardPsd,jdbcType=VARCHAR}
+				 </if>
+				 <if test="query.status != null and query.status != ''" >
+	  		 		/* 状态（0:未领取，1:已领取） */
+			    	AND wasc.status =  #{query.status,jdbcType=VARCHAR}
+				 </if>
+				 <if test="query.jwid != null and query.jwid != ''" >
+	  		 		/* 微信原始id */
+			    	AND wasc.jwid =  #{query.jwid,jdbcType=VARCHAR}
+				 </if>
+		</trim>
+	</sql>
+
+	<!--
+	方法名称: insert
+	调用路径: com.jeecg.p3.shaketicket.entity.WxActShaketicketCoupon.insert
+	开发信息: 
+	处理信息: 保存信息
+	-->
+	<insert id="insert" parameterType="Object" >
+	  INSERT  INTO  wx_act_shaketicket_coupon   /* 卡券配置表 */  
+					(	
+                      id                            /*  */ 
+                     ,act_id                        /*  */ 
+                     ,awards_id                     /* 奖项ID */ 
+                     ,card_psd                      /* 卡券密码 */ 
+                     ,status                        /* 状态（0:未领取，1:已领取） */ 
+                     ,jwid                          /* 微信原始id */ 
+					)
+			values (
+                      #{id,jdbcType=VARCHAR}                            /*  */ 
+                     ,#{actId,jdbcType=VARCHAR}                         /*  */ 
+                     ,#{awardsId,jdbcType=VARCHAR}                      /* 奖项ID */ 
+                     ,#{cardPsd,jdbcType=VARCHAR}                       /* 卡券密码 */ 
+                     ,#{status,jdbcType=VARCHAR}                        /* 状态（0:未领取，1:已领取） */ 
+                     ,#{jwid,jdbcType=VARCHAR}                          /* 微信原始id */ 
+					)
+	</insert>
+
+	
+	<!--
+	方法名称: update
+	调用路径: com.jeecg.p3.shaketicket.entity.WxActShaketicketCoupon.update
+	开发信息: 
+	处理信息: 修改信息
+	-->  
+	 <update id="update" parameterType="Object" >
+	  UPDATE   wx_act_shaketicket_coupon  	/* 卡券配置表 */
+	  			<trim   prefix="SET" suffixOverrides="," >
+						 <if test="actId != null">
+		    		 		/*  */ 
+	    		 			act_id = #{actId,jdbcType=VARCHAR},
+						 </if>
+						 <if test="awardsId != null">
+		    		 		/* 奖项ID */ 
+	    		 			awards_id = #{awardsId,jdbcType=VARCHAR},
+						 </if>
+						 <if test="cardPsd != null">
+		    		 		/* 卡券密码 */ 
+	    		 			card_psd = #{cardPsd,jdbcType=VARCHAR},
+						 </if>
+						 <if test="status != null">
+		    		 		/* 状态（0:未领取，1:已领取） */ 
+	    		 			status = #{status,jdbcType=VARCHAR},
+						 </if>
+						 <if test="jwid != null">
+		    		 		/* 微信原始id */ 
+	    		 			jwid = #{jwid,jdbcType=VARCHAR},
+						 </if>
+	  	  		</trim>
+				WHERE
+	  	 		 		id = #{id}		/* 序号 */ 
+	 </update>
+	
+	<!--
+	方法名称: get
+	调用路径: com.jeecg.p3.shaketicket.entity.WxActShaketicketCoupon.get
+	开发信息: 
+	处理信息: 根据主键查询记录
+	-->
+	<select id="get" parameterType="Object"  resultMap="WxActShaketicketCoupon">
+		   SELECT   
+                   wasc.id                            /*  */ 
+                  ,wasc.act_id                        /*  */ 
+                  ,wasc.awards_id                     /* 奖项ID */ 
+                  ,wasc.card_psd                      /* 卡券密码 */ 
+                  ,wasc.status                        /* 状态（0:未领取，1:已领取） */ 
+                  ,wasc.jwid                          /* 微信原始id */ 
+		   FROM   wx_act_shaketicket_coupon      AS wasc      /* 卡券配置表 */ 
+		   WHERE
+				id = #{id}				/* 序号 */ 
+	</select>
+	
+	<!--
+	方法名称: delete
+	调用路径: com.jeecg.p3.shaketicket.entity.WxActShaketicketCoupon.delete
+	开发信息: 
+	处理信息: 删除记录
+	-->
+	<delete id="delete" parameterType="Object">
+		DELETE 	FROM wx_act_shaketicket_coupon 	/* 卡券配置表 */  
+		WHERE 
+			id = #{id}					/* 序号 */ 
+	</delete>
+	
+	<!--
+	方法名称: count
+	调用路径: com.jeecg.p3.shaketicket.entity.WxActShaketicketCoupon.count
+	开发信息: 
+	处理信息: 列表总数
+	-->
+	<select id="count" resultType="java.lang.Integer"  parameterType="Object">
+		SELECT count(*)  FROM  wx_act_shaketicket_coupon      AS wasc      /* 卡券配置表 */ 
+		 WHERE 1=1
+		    <include refid="wherecontation"/>
+	</select>
+  	
+  	<!--
+	方法名称: queryPageList
+	调用路径: com.jeecg.p3.shaketicket.entity.WxActShaketicketCoupon.queryPageList
+	开发信息: 
+	处理信息: 列表
+	-->
+	<select id="queryPageList" parameterType="Object"  resultMap="WxActShaketicketCoupon">
+		    SELECT 
+                   wasc.id                            /*  */ 
+                  ,wasc.act_id                        /*  */ 
+                  ,wasc.awards_id                     /* 奖项ID */ 
+                  ,wasc.card_psd                      /* 卡券密码 */ 
+                  ,wasc.status                        /* 状态（0:未领取，1:已领取） */ 
+                  ,wasc.jwid                          /* 微信原始id */ 
+		FROM   	 wx_act_shaketicket_coupon      AS wasc      /* 卡券配置表 */ 
+		WHERE 1=1
+		   <include refid="wherecontation"/>
+		LIMIT  #{startRow}  		/* 开始序号 */ 
+			  ,#{pageSize}		/* 每页显示条数 */ 
+	</select>
+		<select id="queryCouponListByActIdAndAwardId" parameterType="Object"  resultMap="WxActShaketicketCoupon">
+		    SELECT 
+                   wasc.id                            /*  */ 
+                  ,wasc.act_id                        /*  */ 
+                  ,wasc.awards_id                     /* 奖项ID */ 
+                  ,wasc.card_psd                      /* 卡券密码 */ 
+                  ,wasc.status                        /* 状态（0:未领取，1:已领取） */ 
+                  ,wasc.jwid                          /* 微信原始id */ 
+		   FROM   	 wx_act_shaketicket_coupon      AS wasc      /* 卡券配置表 */ 
+		   WHERE
+				wasc.act_id = #{actId}				/* 子活动id */ 
+		   AND	wasc.awards_id = #{awardId}				/* 奖项ID */ 
+		   AND  wasc.status = '0'                       /* 状态是0：未领取 */
+		   order by wasc.id desc
+	</select>
+	
+	<update id="updateStatus" parameterType="Object" >
+	  UPDATE   wx_act_shaketicket_coupon  	/* 卡券配置表 */
+		SET
+	    	status ='1'
+		WHERE
+	  	 	id = #{id}
+	  	AND status='0'
+	 </update>
+</mapper>

@@ -1,0 +1,62 @@
+#set($version='?v=1.0.3')
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$!{dictTool.getSysText('index.title',$!{shaketicket.id})}</title>
+<meta charset="UTF-8">
+<meta content="yes" name="apple-mobile-web-app-capable"></meta>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"></meta> 
+<meta name="format-detection" content="telephone=no"></meta>
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"></meta>
+<meta content="yes" name="full-screen"></meta>
+<meta content="true" name="x5-fullscreen"></meta>
+<meta content="application" name="browsermode"></meta>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<link href="$!{basePath}/content/shaketicket/js/css/xcszf.css$!{version}" type="text/css" rel="stylesheet" />
+<script src="$!{basePath}/content/shaketicket/js/js/jquery-1.8.0.min.js$!{version}" type="text/javascript"></script>
+<script src="$!{basePath}/content/shaketicket/js/js/wxcheck.js$!{version}" type="text/javascript"></script>
+</head>
+<body>
+<!--活动说明 -->
+<style>
+body {
+ background-color: #ffeea0; color:#6d4112;margin:10px auto; padding:0px 10px; font-size:14px;}
+.h31{ font-size:16px; color:#6d4112; padding-top:10px; padding-bottom:5px; font-weight:bold;}
+.pinfo{ padding:15px; line-height:19px;color:#6d4112;  }
+.pinfo p{ margin-bottom:7px}
+.divmore{width:100%; height:44px; line-height:44px; background:#fff; border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; text-align:center; margin-bottom:10px;}
+.divmore a{ font-size:16px; color:#02bb00;}
+</style>
+<div class="pinfo">
+<p>
+<h3  style="text-align:center" class="h31">活动规则</h3>
+</p>
+$!{shaketicket.detail}
+</div>
+<!--活动说明 end -->
+</body>
+<!-- 微信分享功能 -->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '$!{appId}', // 必填，公众号的唯一标识
+        timestamp: $!{timestamp}, // 必填，生成签名的时间戳
+        nonceStr: '$!{nonceStr}', // 必填，生成签名的随机串
+        signature: '$!{signature}',// 必填，签名，见附录1【必填：通过提供接口获取】
+        jsApiList: [
+    	         'checkJsApi',
+    	        'hideAllNonBaseMenuItem'
+    	        ]
+         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+ wx.ready(function () {
+		wx.hideAllNonBaseMenuItem();
+  	});
+</script>
+<script>
+$!{dictTool.getSysText('statistics',$!{shaketicket.id})}
+</script>
+
+</html>
